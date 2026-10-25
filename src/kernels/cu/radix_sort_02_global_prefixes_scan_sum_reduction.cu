@@ -11,11 +11,18 @@ __global__ void radix_sort_02_global_prefixes_scan_sum_reduction(
     // это лишь шаблон! смело меняйте аргументы и используемые буфера! можете сделать даже больше кернелов, если это вызовет затруднения - смело спрашивайте в чате
     // НЕ ПОДСТРАИВАЙТЕСЬ ПОД СИСТЕМУ! СВЕРНИТЕ С РЕЛЬС!! БУНТ!!! АНТИХАЙП!11!!1
     // TODO try char
-    const unsigned int* buffer1,
-          unsigned int* buffer2,
-    unsigned int a1)
+    const unsigned int* pow2_sum,
+          unsigned int* next_pow2_sum,
+    unsigned int n)
 {
-    // TODO
+    const unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i >= (n + 1) / 2)
+        return;
+
+    unsigned int sum = pow2_sum[2 * i];
+    if (2 * i + 1 < n)
+        sum += pow2_sum[2 * i + 1];
+    next_pow2_sum[i] = sum;
 }
 
 namespace cuda {

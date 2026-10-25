@@ -11,12 +11,19 @@ __global__ void radix_sort_03_global_prefixes_scan_accumulation(
     // это лишь шаблон! смело меняйте аргументы и используемые буфера! можете сделать даже больше кернелов, если это вызовет затруднения - смело спрашивайте в чате
     // НЕ ПОДСТРАИВАЙТЕСЬ ПОД СИСТЕМУ! СВЕРНИТЕ С РЕЛЬС!! БУНТ!!! АНТИХАЙП!11!!1
     // TODO try char
-    const unsigned int* buffer1,
-          unsigned int* buffer2,
-    unsigned int a1,
-    unsigned int a2)
+    const unsigned int* pow2_sum,
+          unsigned int* prefix_sum_accum,
+    unsigned int n,
+    unsigned int pow2)
 {
-    // TODO
+    const unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i >= n)
+        return;
+
+    const unsigned int len = i + 1;
+    if ((len >> pow2) & 1) {
+        prefix_sum_accum[i] += pow2_sum[(len >> pow2) - 1];
+    }
 }
 
 namespace cuda {
